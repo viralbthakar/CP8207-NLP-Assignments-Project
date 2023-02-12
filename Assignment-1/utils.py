@@ -1,4 +1,6 @@
 import os
+import docx
+import random
 import zipfile
 from nltk.tokenize import RegexpTokenizer
 
@@ -23,6 +25,14 @@ def create_dir(root_dir, new_dir):
     return os.path.join(root_dir, new_dir)
 
 
+def random_select_dict(ip_dict, num_items):
+    list_keys = random.choices(list(ip_dict.keys()), k=num_items)
+    out_dict = {}
+    for key in list_keys:
+        out_dict[key] = ip_dict[key]
+    return out_dict
+
+
 def read_docx_file(file_path):
     zip_obj = zipfile.ZipFile(file_path)
     return zip_obj
@@ -43,6 +53,19 @@ def extract_images(file_path, out_path, extensions=[".jpg", ".jpeg", ".png", ".b
             with open(out_file_name, "wb") as out_file:
                 out_file.write(zip_obj.read(file_name))
     return image_file_paths
+
+
+def extract_paragraphs(file_path, out_path=None, min_char_count=1):
+    styled_print(f"Extracting Paragraphs from {file_path}", header=True)
+    paragraphs = {}
+    document = docx.Document(file_path)
+    for i in range(2, len(document.paragraphs)):
+        if min_char_count is not None:
+            if len(document.paragraphs[i].text) >= min_char_count:
+                paragraphs[i] = document.paragraphs[i].text
+        else:
+            paragraphs[i] = document.paragraphs[i].text
+    return paragraphs
 
 
 def tokenize_real_words(input_string):
