@@ -1,8 +1,13 @@
 import os
 import docx
+import string
 import random
 import zipfile
+from collections import defaultdict
 from nltk.tokenize import RegexpTokenizer
+
+
+big_data_dict = defaultdict(list)
 
 
 def styled_print(text, header=False):
@@ -18,9 +23,9 @@ def styled_print(text, header=False):
         print(f'    {text}')
 
 
-def create_dir(root_dir, new_dir):
+def create_dir(root_dir, new_dir, header=True):
     styled_print(
-        f'creating directory ... {os.path.join(root_dir, new_dir)}', header=True)
+        f'creating directory ... {os.path.join(root_dir, new_dir)}', header=header)
     os.makedirs(os.path.join(root_dir, new_dir), exist_ok=True)
     return os.path.join(root_dir, new_dir)
 
@@ -66,9 +71,3 @@ def extract_paragraphs(file_path, out_path=None, min_char_count=1):
         else:
             paragraphs[i] = document.paragraphs[i].text
     return paragraphs
-
-
-def tokenize_real_words(input_string):
-    tokenizer = RegexpTokenizer(r'\w+')
-    tokens = tokenizer.tokenize(input_string)
-    return tokens
