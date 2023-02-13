@@ -1,6 +1,13 @@
 import os
+import docx
+import string
+import random
 import zipfile
+from collections import defaultdict
 from nltk.tokenize import RegexpTokenizer
+
+
+big_data_dict = defaultdict(list)
 
 
 def styled_print(text, header=False):
@@ -16,11 +23,19 @@ def styled_print(text, header=False):
         print(f'    {text}')
 
 
-def create_dir(root_dir, new_dir):
+def create_dir(root_dir, new_dir, header=True):
     styled_print(
-        f'creating directory ... {os.path.join(root_dir, new_dir)}', header=True)
+        f'creating directory ... {os.path.join(root_dir, new_dir)}', header=header)
     os.makedirs(os.path.join(root_dir, new_dir), exist_ok=True)
     return os.path.join(root_dir, new_dir)
+
+
+def random_select_dict(ip_dict, num_items):
+    list_keys = random.choices(list(ip_dict.keys()), k=num_items)
+    out_dict = {}
+    for key in list_keys:
+        out_dict[key] = ip_dict[key]
+    return out_dict
 
 
 def read_docx_file(file_path):
@@ -45,7 +60,14 @@ def extract_images(file_path, out_path, extensions=[".jpg", ".jpeg", ".png", ".b
     return image_file_paths
 
 
-def tokenize_real_words(input_string):
-    tokenizer = RegexpTokenizer(r'\w+')
-    tokens = tokenizer.tokenize(input_string)
-    return tokens
+def extract_paragraphs(file_path, out_path=None, min_char_count=1):
+    styled_print(f"Extracting Paragraphs from {file_path}", header=True)
+    paragraphs = {}
+    document = docx.Document(file_path)
+    for i in range(2, len(document.paragraphs)):
+        if min_char_count is not None:
+            if len(document.paragraphs[i].text) >= min_char_count:
+                paragraphs[i] = document.paragraphs[i].text
+        else:
+            paragraphs[i] = document.paragraphs[i].text
+    return paragraphs
