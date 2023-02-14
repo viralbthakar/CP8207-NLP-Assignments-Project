@@ -133,5 +133,93 @@
                 "url": "https://gameofthrones.fandom.com/wiki/Meleys"
             }
         ]
-    }
+    },
+    "youtube-videos" : [
+        {
+            "id" : 0,
+            "title" : "The Complete Fire and Blood Summary ",
+            "url" : "https://www.youtube.com/watch?v=sNJVyxR__gg"
+            },
+            {
+            "id" : 1,
+            "title" : "Game of Thrones  BSO House Targaryen Theme Extended! Fire and Blood ",
+            "url" : "https://www.youtube.com/watch?v=XPUMQfBash8"
+            },
+            {
+            "id" : 2,
+            "title" : "Lord Varys \"Fire and Blood.\" ",
+            "url" : "https://www.youtube.com/watch?v=D8ri4G0VPAM"
+            },
+            {
+            "id" : 3,
+            "title" : "A Song of Ice and Fire: Dance of the Dragons | Complete History of the Targaryen Civil War ",
+            "url" : "https://www.youtube.com/watch?v=13i9xDLoOBE"
+            },
+            {
+            "id" : 4,
+            "title" : "FIRE & BLOOD Chapter 1: Aegon's Conquest (Audiobook) ",
+            "url" : "https://www.youtube.com/watch?v=eNUj0lDqr5Y"
+            },
+            {
+            "id" : 5,
+            "title" : "House Targaryen | Fire & Blood ",
+            "url" : "https://www.youtube.com/watch?v=cmhxvDSAIHs"
+            },
+            {
+            "id" : 6,
+            "title" : "FIRE & BLOOD Chapter 17: The Dying of the Dragons - Rhaenyra Overthrown ",
+            "url" : "https://www.youtube.com/watch?v=4ZABgSqygxE"
+            },
+            {
+            "id" : 7,
+            "title" : "Rise and Fall of the Targaryens - House of the Dragon Lore DOCUMENTARY ",
+            "url" : "https://www.youtube.com/watch?v=elBPgLSVGk0"
+            },
+            {
+            "id" : 8,
+            "title" : "The Dance of Dragons by Shireen, Viserys & Others ",
+            "url" : "https://www.youtube.com/watch?v=WY_GyBuuf_c"
+            },
+            {
+            "id" : 9,
+            "title" : "A Timeline of Ice and Fire (Complete: Prehistory - 300 AC) ",
+            "url" : "https://www.youtube.com/watch?v=dyjHq4HJGs4"
+            },
+            {
+            "id" : 10,
+            "title" : "FIRE & BLOOD Chapter 15: The Dying of the Dragons - The Red Dragon and the Gold ",
+            "url" : "https://www.youtube.com/watch?v=DndrUm4cXAk"
+            },
+            {
+            "id" : 11,
+            "title" : "Game of Thrones Prequel: Aegon’s Conquest Preview (HBO) | House of the Dragon ",
+            "url" : "https://www.youtube.com/watch?v=T9bg4qVfKu0"
+            },
+            {
+            "id" : 12,
+            "title" : "FIRE & BLOOD Chapter 12: Heirs of the Dragon - A Question of Succession ",
+            "url" : "https://www.youtube.com/watch?v=RhAnK45DiDM"
+            },
+            {
+            "id" : 13,
+            "title" : "George R.R. Martin Discusses His Book FIRE & BLOOD ",
+            "url" : "https://www.youtube.com/watch?v=O2_JdKkLA6k"
+            },
+            {
+            "id" : 14,
+            "title" : "FIRE & BLOOD Chapter 4: The Sons of the Dragon (Audiobook) ",
+            "url" : "https://www.youtube.com/watch?v=z8vm2kOinrA"
+            },
+            {
+            "id" : 15,
+            "title" : "FIRE & BLOOD Chapter 11: The Long Reign - Jaehaerys and Alysanne: Policy, Progeny & Pain (Audiobook) ",
+            "url" : "https://www.youtube.com/watch?v=eLwtvC3bCSk"
+            },
+            {
+            "id" : 16,
+            "title" : "House of the Dragon Explained In 10 Minutes | Game of Thrones Prequel ",
+            "url" : "https://www.youtube.com/watch?v=zwQ0PI9ENpk"
+            }
+                        
+    ]
 }
