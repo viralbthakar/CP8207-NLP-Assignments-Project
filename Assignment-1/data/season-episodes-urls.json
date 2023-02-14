@@ -1,0 +1,137 @@
+{
+    "house-of-dragons": {
+        "episodes": [
+            {
+                "id": 1,
+                "title": "The Heirs of the Dragon",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Heirs_of_the_Dragon"
+            },
+            {
+                "id": 2,
+                "title": "The Rogue Prince",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Rogue_Prince"
+            },
+            {
+                "id": 3,
+                "title": "Second of His Name",
+                "url": "https://gameofthrones.fandom.com/wiki/Second_of_His_Name"
+            },
+            {
+                "id": 4,
+                "title": "King of the Narrow Sea",
+                "url": "https://gameofthrones.fandom.com/wiki/King_of_the_Narrow_Sea_(episode)"
+            },
+            {
+                "id": 5,
+                "title": "We Light the Way",
+                "url": "https://gameofthrones.fandom.com/wiki/We_Light_the_Way"
+            },
+            {
+                "id": 6,
+                "title": "The Princess and the Queen",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Princess_and_the_Queen"
+            },
+            {
+                "id": 7,
+                "title": "Driftmark",
+                "url": "https://gameofthrones.fandom.com/wiki/Driftmark_(episode)"
+            },
+            {
+                "id": 8,
+                "title": "The Lord of the Tides",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Lord_of_the_Tides"
+            },
+            {
+                "id": 9,
+                "title": "The Green Council",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Green_Council"
+            },
+            {
+                "id": 10,
+                "title": "The Black Queen",
+                "url": "https://gameofthrones.fandom.com/wiki/The_Black_Queen"
+            }
+        ],
+        "differences": [
+            {
+                "id": 1,
+                "title": "Differences in adaptation",
+                "url": "https://gameofthrones.fandom.com/wiki/Differences_in_adaptation/House_of_the_Dragon:_Season_1"
+            }
+        ],
+        "characters": [
+            {
+                "id": 1,
+                "title": "Viserys I Targaryen",
+                "url": "https://gameofthrones.fandom.com/wiki/Viserys_I_Targaryen"
+            },
+            {
+                "id": 2,
+                "title": "Daemon Targaryen",
+                "url": "https://gameofthrones.fandom.com/wiki/Daemon_Targaryen"
+            },
+            {
+                "id": 3,
+                "title": "Rhaenyra Targaryen",
+                "url": "https://gameofthrones.fandom.com/wiki/Rhaenyra_Targaryen"
+            },
+            {
+                "id": 4,
+                "title": "Alicent Hightower",
+                "url": "https://gameofthrones.fandom.com/wiki/Alicent_Hightower"
+            },
+            {
+                "id": 5,
+                "title": "Otto Hightower",
+                "url": "https://gameofthrones.fandom.com/wiki/Otto_Hightower"
+            },
+            {
+                "id": 6,
+                "title": "Corlys Velaryon",
+                "url": "https://gameofthrones.fandom.com/wiki/Corlys_Velaryon"
+            },
+            {
+                "id": 7,
+                "title": "Rhaenys Targaryen",
+                "url": "https://gameofthrones.fandom.com/wiki/Rhaenys_Targaryen"
+            },
+            {
+                "id": 8,
+                "title": "Mysaria",
+                "url": "https://gameofthrones.fandom.com/wiki/Mysaria"
+            },
+            {
+                "id": 9,
+                "title": "Criston Cole",
+                "url": "https://gameofthrones.fandom.com/wiki/Criston_Cole"
+            },
+            {
+                "id": 10,
+                "title": "Harrold Westerling",
+                "url": "https://gameofthrones.fandom.com/wiki/Harrold_Westerling"
+            }
+        ],
+        "dragons": [
+            {
+                "id": 1,
+                "title": "Vhagar",
+                "url": "https://gameofthrones.fandom.com/wiki/Vhagar"
+            },
+            {
+                "id": 2,
+                "title": "Caraxes",
+                "url": "https://gameofthrones.fandom.com/wiki/Caraxes"
+            },
+            {
+                "id": 3,
+                "title": "Syrax",
+                "url": "https://gameofthrones.fandom.com/wiki/Syrax"
+            },
+            {
+                "id": 4,
+                "title": "Meleys",
+                "url": "https://gameofthrones.fandom.com/wiki/Meleys"
+            }
+        ]
+    }
+}
