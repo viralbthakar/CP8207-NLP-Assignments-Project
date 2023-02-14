@@ -1,10 +1,27 @@
 import os
 import json
+import pysrt
 import argparse
 import trafilatura
+import pandas as pd
+from collections import defaultdict
 from utils import create_dir, styled_print
 
-OUT_DATA_DIR = "data/url-texts"
+OUT_DATA_DIR = "../data/processed-data/url-texts"
+
+
+def extract_text_from_srt(file_path):
+    subtitle_dict = defaultdict(list)
+    subtitles = pysrt.open(file_path)
+    for sub in subtitles:
+        subtitle_dict["start_hours"].append(sub.start.hours)
+        subtitle_dict["start_minutes"].append(sub.start.minutes)
+        subtitle_dict["start_seconds"].append(sub.start.seconds)
+        subtitle_dict["end_hours"].append(sub.end.hours)
+        subtitle_dict["end_minutes"].append(sub.end.minutes)
+        subtitle_dict["end_seconds"].append(sub.end.seconds)
+        subtitle_dict["text"].append(sub.text)
+    return subtitle_dict
 
 
 def extract_text_from_url(url):
@@ -45,30 +62,37 @@ if __name__ == "__main__":
                         default=None, help="Path to JSON file")
     args = parser.parse_args()
 
-    styled_print("Initiating Wikis Parser", header=True)
+    styled_print("Initiating Data Extractor", header=True)
 
     if args.hod_urls_file is not None:
         styled_print(
-            "Extracting Wikis for House of Dragons Episodes", header=True)
-        out_dir = create_dir(OUT_DATA_DIR, "hod", header=False)
+            "Extracting Data for House of Dragons Season", header=True)
+        out_dir = create_dir(OUT_DATA_DIR, "house-of-dragons", header=False)
 
         with open(args.hod_urls_file, 'r') as f:
             hod_data = json.load(f)
 
-        styled_print(f"{json.dumps(hod_data, indent=4)}")
-
         for key in hod_data["house-of-dragons"].keys():
+            styled_print(
+                f"Working on {key} of House of Dragons", header=True)
             element_dir = create_dir(out_dir, key, header=False)
             elements = {epi["title"]: epi["url"] for epi in
                         hod_data["house-of-dragons"][key]}
-
             styled_print(
                 f"Found {len(elements.keys())} {key} ...", header=True)
-
             for title, url in elements.items():
                 styled_print(f"Extracting {title} {key} ...")
-                episode_dir = create_dir(
-                    element_dir, title.replace(' ', '-'), header=False)
-                text = extract_text_from_url(url)
-                with open(os.path.join(episode_dir, f"{title.replace(' ', '-')}.txt"), 'w') as f:
-                    f.write(text)
+                if key == "subtitles":
+                    subtitle_dict = extract_text_from_srt(url)
+                    styled_print(
+                        f"Writing Subtitles into {title.replace(' ', '-')}.csv ...")
+                    pd.DataFrame(subtitle_dict).to_csv(
+                        os.path.join(
+                            element_dir, f"{title.replace(' ', '-')}.csv"),
+                        index=False, header=True)
+                else:
+                    text = extract_text_from_url(url)
+                    styled_print(
+                        f"Writing Text into {title.replace(' ', '-')}.txt ...")
+                    with open(os.path.join(element_dir, f"{title.replace(' ', '-')}.txt"), 'w') as f:
+                        f.write(text)
