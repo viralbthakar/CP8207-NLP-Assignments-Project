@@ -1,5 +1,6 @@
 import os
 import docx
+import time
 import string
 import random
 import zipfile
@@ -20,7 +21,8 @@ def styled_print(text, header=False):
     if header:
         print(f'{style.BOLD}› {style.UNDERLINE}{text}{style.END}')
     else:
-        print(f'    {text}')
+        print(f'    › {text}')
+    time.sleep(0.5)
 
 
 def create_dir(root_dir, new_dir, header=True):
