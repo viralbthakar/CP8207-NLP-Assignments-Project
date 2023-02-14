@@ -56,20 +56,17 @@ def extract_text_from_url(url):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Wikis Parser')
-    parser.add_argument('--urls', type=str, nargs='+', default=None,
-                        help='Type your test urls.')
-    parser.add_argument('--hod-urls-file', type=str,
-                        default=None, help="Path to JSON file")
+    parser.add_argument('--config-file', type=str, help="Path to JSON file")
     args = parser.parse_args()
 
     styled_print("Initiating Data Extractor", header=True)
 
-    if args.hod_urls_file is not None:
+    if args.config_file is not None:
         styled_print(
             "Extracting Data for House of Dragons Season", header=True)
         out_dir = create_dir(OUT_DATA_DIR, "house-of-dragons", header=False)
 
-        with open(args.hod_urls_file, 'r') as f:
+        with open(args.config_file, 'r') as f:
             hod_data = json.load(f)
 
         for key in hod_data["house-of-dragons"].keys():
