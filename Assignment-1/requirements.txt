@@ -1,3 +1,5 @@
 nltk
 tensorflow
 python-docx
+youtube-search-python
+youtube_transcript_api

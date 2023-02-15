@@ -4,6 +4,8 @@ import time
 import string
 import random
 import zipfile
+import seaborn as sns
+import matplotlib.pyplot as plt
 from collections import defaultdict
 from nltk.tokenize import RegexpTokenizer
 
@@ -73,3 +75,53 @@ def extract_paragraphs(file_path, out_path=None, min_char_count=1):
         else:
             paragraphs[i] = document.paragraphs[i].text
     return paragraphs
+
+
+def plot_box_plot_hist_plot(df, column, title="Distribution Plot", figsize=(16, 16),
+                            dpi=300, save_flag=False, file_path=None):
+    fig, (ax_box, ax_hist) = plt.subplots(
+        nrows=2,
+        sharex=True,
+        figsize=figsize,
+        gridspec_kw={"height_ratios": (.20, .80)},
+        dpi=dpi,
+        constrained_layout=False
+    )
+    sns.boxplot(data=df, x=column, ax=ax_box)
+    sns.histplot(data=df, x=column, ax=ax_hist, kde=True, bins='sqrt')
+    ax_box.set(xlabel='')
+    ax_box.set_facecolor('white')
+    ax_hist.set_facecolor('white')
+    plt.title(title)
+    if save_flag:
+        fig.savefig(file_path, dpi=dpi, facecolor='white')
+        plt.close()
+
+
+def plot_count_plot(df, column, hue=None, title="Count Plot", figsize=(24, 24), dpi=300,
+                    save_flag=False, file_path=None):
+    fig, axs = plt.subplots(1, 1, figsize=figsize,
+                            dpi=dpi, constrained_layout=False)
+    pt = sns.countplot(data=df, x=column, hue=hue,
+                       palette=sns.color_palette("Set2"))
+    pt.set_xticklabels(pt.get_xticklabels(), rotation=30)
+    if hue is not None:
+        axs.legend(loc="upper right", title=hue)
+    axs.set_facecolor('white')
+    plt.title(title)
+    if save_flag:
+        fig.savefig(file_path, dpi=dpi, facecolor='white')
+        plt.close()
+
+
+def combine_multiple_text_files(data_path):
+    import glob
+    if os.path.exists(os.path.join(data_path, "combined.txt")):
+        os.remove(os.path.join(data_path, "combined.txt"))
+
+    read_files = glob.glob(os.path.join(data_path, "*.txt"))
+    with open(os.path.join(data_path, "combined.txt"), "wb") as outfile:
+        for f in read_files:
+            with open(f, "rb") as infile:
+                outfile.write(infile.read())
+    return os.path.join(data_path, "combined.txt")

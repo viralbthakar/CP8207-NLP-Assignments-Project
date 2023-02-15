@@ -1,12 +1,15 @@
 import string
+import pandas as pd
+from collections import defaultdict
+
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 
 
-class paragraph_cleaner(object):
-    def __init__(self, paragraph):
-        self.paragraph = paragraph
+class ParagraphCleaner(object):
+    def __init__(self, paragraphs_dict):
+        self.paragraphs_dict = paragraphs_dict
 
     def remove_punctuation(self, text):
         for punctuation in string.punctuation:
@@ -21,6 +24,10 @@ class paragraph_cleaner(object):
         text = ''.join([i for i in text if not i.isdigit()])
         return text
 
+    def tokenize_text(self, text):
+        tokenized = word_tokenize(text)
+        return tokenized
+
     def remove_stopwords(self, text, language='english'):
         stop_words = set(stopwords.words(language))
         tokenized = word_tokenize(text)
@@ -33,3 +40,14 @@ class paragraph_cleaner(object):
         text = [lemmatizer.lemmatize(word) for word in text]  # Lemmatize
         text = " ".join(text)
         return text
+
+    def clean_paragraphs(self):
+        cleaned_dict = {}
+        for key, value in self.paragraphs_dict.items():
+            text = self.remove_punctuation(value)
+            text = self.lowercase(text)
+            text = self.remove_stopwords(text)
+            text = self.lemmatize(text)
+
+            cleaned_dict[key] = text
+        return cleaned_dict
