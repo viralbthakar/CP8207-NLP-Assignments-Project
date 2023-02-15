@@ -9,7 +9,7 @@ from collections import defaultdict
 from sklearn.feature_extraction.text import CountVectorizer
 
 from nltk.util import ngrams
-from nltk import word_tokenize
+from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 
 from utils import create_dir, plot_box_plot_hist_plot, plot_count_plot
@@ -22,33 +22,40 @@ class ParagraphAnalysis(object):
             paragraphs_dict.items(), columns=["id", "paragraphs"])
         self.out_dir = out_dir
         self.add_all_key_features()
-        self.words_counts = len(self.row_corpus)
+        self.words_counts = len(self.raw_corpus)
 
     def add_all_key_features(self):
+        self.tokenize_sentences()
+        self.tokenize_words()
+        self.create_vocabulary()
         self.add_paragraph_chars_count()
         self.add_paragraph_words_count()
         self.add_paragraph_avg_word_length()
-        self.add_list_of_words()
-        list_of_words = self.paragraphs_df["list_of_words"]
-        self.row_corpus = [
+
+    def tokenize_sentences(self):
+        self.paragraphs_df["sentences"] = self.paragraphs_df["paragraphs"].apply(
+            sent_tokenize)
+
+    def tokenize_words(self):
+        self.paragraphs_df["words"] = self.paragraphs_df["paragraphs"].apply(
+            word_tokenize)
+
+    def create_vocabulary(self):
+        list_of_words = self.paragraphs_df["words"]
+        self.raw_corpus = [
             word for sentence in list_of_words for word in sentence]
-        print(self.row_corpus[:100])
 
     def add_paragraph_chars_count(self):
         self.paragraphs_df["paragraph_chars_count"] = self.paragraphs_df["paragraphs"].str.len(
         )
 
     def add_paragraph_words_count(self):
-        self.paragraphs_df["paragraph_words_count"] = self.paragraphs_df["paragraphs"].apply(
-            word_tokenize).map(lambda x: len(x))
+        self.paragraphs_df["paragraph_words_count"] = self.paragraphs_df["words"].map(
+            lambda x: len(x))
 
     def add_paragraph_avg_word_length(self):
-        self.paragraphs_df["paragraph_avg_word_len"] = self.paragraphs_df["paragraphs"].str.split(
-        ).apply(lambda x: [len(i) for i in x]).map(lambda x: np.mean(x))
-
-    def add_list_of_words(self):
-        self.paragraphs_df["list_of_words"] = self.paragraphs_df["paragraphs"].apply(
-            word_tokenize)
+        self.paragraphs_df["paragraph_avg_word_len"] = self.paragraphs_df["words"].apply(
+            lambda x: [len(i) for i in x]).map(lambda x: np.mean(x))
 
     def characters_per_paragraph_histogram(self, figsize=(4, 4), dpi=300, save_flag=False):
         plot_box_plot_hist_plot(
@@ -89,7 +96,7 @@ class ParagraphAnalysis(object):
     def get_stop_words_corpus(self, language='english'):
         stop_words = set(stopwords.words(language))
         stop_words_corpus = defaultdict(int)
-        for word in self.row_corpus:
+        for word in self.raw_corpus:
             if word in stop_words:
                 stop_words_corpus[word] += 1
         return stop_words_corpus
@@ -120,7 +127,7 @@ class ParagraphAnalysis(object):
 
     def get_non_stop_words_corpus(self, language='english'):
         stop_words = set(stopwords.words(language))
-        counter = Counter(self.row_corpus)
+        counter = Counter(self.raw_corpus)
         most = counter.most_common()
         non_stop_words_corpus = defaultdict(int)
         for word, count in most:
@@ -154,14 +161,15 @@ class ParagraphAnalysis(object):
             plt.close()
 
     def get_ngrams(self, n=2, return_list=False):
-        grams = ngrams(self.row_corpus, n)
+        grams = ngrams(self.raw_corpus, n)
         if return_list:
             grams = list(grams)
         return grams
 
     def get_top_k_ngrams(self, n=2, top_k=10):
-        vec = CountVectorizer(ngram_range=(n, n)).fit(self.row_corpus)
-        bag_of_words = vec.transform(self.row_corpus)
+        vec = CountVectorizer(ngram_range=(n, n)).fit(
+            self.paragraphs_df["paragraphs"])
+        bag_of_words = vec.transform(self.paragraphs_df["paragraphs"])
         sum_words = bag_of_words.sum(axis=0)
         words_freq = [(word, sum_words[0, idx])
                       for word, idx in vec.vocabulary_.items()]
