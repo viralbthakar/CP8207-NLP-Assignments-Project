@@ -7,12 +7,13 @@ from collections import Counter
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.decomposition import LatentDirichletAllocation
 
 from nltk.util import ngrams
 from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 
-from utils import create_dir, plot_box_plot_hist_plot, plot_count_plot
+from utils import create_dir, plot_box_plot_hist_plot, plot_count_plot, styled_print
 
 
 class ParagraphAnalysis(object):
@@ -193,3 +194,17 @@ class ParagraphAnalysis(object):
         if save_flag:
             fig.savefig(file_path, dpi=dpi, facecolor='white')
             plt.close()
+
+    def build_lda(self, n_components=2):
+        vectorizer = CountVectorizer()
+        data_vectorized = vectorizer.fit_transform(
+            self.paragraphs_df["paragraphs"])
+        lda_model = LatentDirichletAllocation(n_components=n_components)
+        lda_vectors = lda_model.fit_transform(data_vectorized)
+        return vectorizer, lda_model, lda_vectors
+
+    def extract_topics(self, vectorizer, model, words_per_topics=10):
+        for idx, topic in enumerate(model.components_):
+            styled_print("Topic %d:" % (idx), header=True)
+            for i in topic.argsort()[:-words_per_topics - 1:-1]:
+                styled_print((vectorizer.get_feature_names_out()[i], topic[i]))
