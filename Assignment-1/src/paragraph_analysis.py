@@ -204,7 +204,11 @@ class ParagraphAnalysis(object):
         return vectorizer, lda_model, lda_vectors
 
     def extract_topics(self, vectorizer, model, words_per_topics=10):
+        topics = {}
         for idx, topic in enumerate(model.components_):
+            topics[idx] = []
             styled_print("Topic %d:" % (idx), header=True)
             for i in topic.argsort()[:-words_per_topics - 1:-1]:
                 styled_print((vectorizer.get_feature_names_out()[i], topic[i]))
+                topics[idx].append(vectorizer.get_feature_names_out()[i])
+        return topics
