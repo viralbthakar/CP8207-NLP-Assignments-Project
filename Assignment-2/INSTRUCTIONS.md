@@ -1,0 +1,21 @@
+# Instruction from Professor Hu
+- **Due Day:** 12:10pm before class, Wednesday, March. 15, 2023
+- **What to Submit:** Slides at D2L, files to shared drive under A2 (the same setting as A1)
+    - Your updated data set
+    - Your knowledge graph / relationship structure / whatever comparison files
+    - Your scripts 
+    - Your slides to present your assignment: Including your analysis and comparisons.
+    - Anything you prefer to be there.
+- **Where to Submit:** D2L-Assessment-A2
+- **Objective:**
+    - The goals of the Assignment 2 are 
+        - (1) Build a Knowledge Graph 
+        - (2) RelationshipExtraction and 
+        - (3) Topic Comparison and Interpretation, on your updated data set from A1. 
+    - At least 2 of the above 3 goals have to achieved in your A2. Any 2 of them. 
+- **Requirements:**
+    - An updated data set is required to submit and you will specify how you update your data set in your presentation.
+    - How is your knowledge graph extracted? How to extend this graph? How to make a high quality graph?
+    - What kind of relationships are considered in your data set? How is the structure extracted? Is this structure a general one? 
+    - How many topics are there? Can these topics be interpreted? Can you compare them? Are these topics general? 
+- **Marking Scheme:** depends on the richness/organization/preprocessing/rationale of the assignment. The marks will also reflect my/your ranking when we watch the presentations. 
