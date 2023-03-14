@@ -28,7 +28,6 @@ def entity_prefix_frequency(entity_list, n): #Returns dataframe of top n most fr
     top_n = top_n.sort_values(by=1)
     return top_n.tail(n)
 
-
 def entity_frequency(entity_list, n): #Returns dataframe of top n most frequent 
     unique, counts = np.unique(entity_list, return_counts=True)
     unique_count = np.asarray((unique, counts)).T
@@ -36,7 +35,7 @@ def entity_frequency(entity_list, n): #Returns dataframe of top n most frequent
     top_n = pd.DataFrame(unique_count)
     top_n[1]=top_n[1].astype(int)
     top_n = top_n.sort_values(by=1)
-    entity_prefix_frequency(entity_list, n)
+    print(entity_prefix_frequency(entity_list, n))
     return top_n.tail(n)
 
 print(entity_frequency(extract_entities("PERSON", ["Assignment-1/data/processed-data/clean-csvs/book-clean-paragraphs.csv", "Assignment-1/data/processed-data/clean-csvs/characters-clean-paragraphs.csv"]), 50))
