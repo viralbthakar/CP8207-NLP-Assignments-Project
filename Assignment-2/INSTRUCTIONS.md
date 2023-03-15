@@ -10,7 +10,7 @@
 - **Objective:**
     - The goals of the Assignment 2 are 
         - (1) Build a Knowledge Graph 
-        - (2) RelationshipExtraction and 
+        - (2) Relationship Extraction and 
         - (3) Topic Comparison and Interpretation, on your updated data set from A1. 
     - At least 2 of the above 3 goals have to achieved in your A2. Any 2 of them. 
 - **Requirements:**
