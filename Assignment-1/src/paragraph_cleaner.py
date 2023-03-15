@@ -12,7 +12,8 @@ class ParagraphCleaner(object):
         self.paragraphs_dict = paragraphs_dict
 
     def remove_punctuation(self, text):
-        for punctuation in string.punctuation:
+        punctuation_to_remove = string.punctuation.replace(".", "")
+        for punctuation in punctuation_to_remove:
             text = text.replace(punctuation, ' ')
         return text
 
@@ -46,8 +47,8 @@ class ParagraphCleaner(object):
         for key, value in self.paragraphs_dict.items():
             text = self.remove_punctuation(value)
             text = self.lowercase(text)
-            text = self.remove_stopwords(text)
-            text = self.lemmatize(text)
+            # text = self.remove_stopwords(text)
+            # text = self.lemmatize(text)
 
             cleaned_dict[key] = text
         return cleaned_dict
