@@ -16,6 +16,9 @@ def clean_pairs(entity_pairs, entity_list): #Removes potential duplicates from p
     dists = {}
     for pair in entity_pairs:
             dists[pair] = (Levenshtein.ratio(pair[1], pair[0]))
-            if dists[pair] > 0.7:
-                entity_list.remove(longest_str(pair))
-    character_attributes = {}
+            if dists[pair] > 0.6:
+                try:
+                    entity_list.remove(longest_str(pair))
+                except:
+                     None
+    return entity_list
