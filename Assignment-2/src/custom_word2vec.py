@@ -1,8 +1,10 @@
+import io
 import os
 import tqdm
 import argparse
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from utils import styled_print
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
@@ -88,22 +90,26 @@ def create_training_pairs(sequences, window_size, num_ns, vocabulary_size, seed=
     return targets, contexts, labels
 
 
-def get_model(vocab_size, num_ns, embedding_dim=128):
-    target_embedding = tf.keras.layers.Embedding(vocab_size,
-                                                 embedding_dim,
-                                                 input_length=1,
-                                                 name="w2v_target_embedding")
-    context_embedding = tf.keras.layers.Embedding(vocab_size,
-                                                  embedding_dim,
-                                                  input_length=num_ns+1,
-                                                  name="w2v_context_embedding")
+class Word2Vec(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, num_ns):
+        super(Word2Vec, self).__init__()
+        self.target_embedding = tf.keras.layers.Embedding(vocab_size,
+                                                          embedding_dim,
+                                                          input_length=1,
+                                                          name="w2v_target_embedding")
+        self.context_embedding = tf.keras.layers.Embedding(vocab_size,
+                                                           embedding_dim,
+                                                           input_length=num_ns+1,
+                                                           name="w2v_context_embedding")
 
-    target = tf.keras.Input(shape=(1,), name="target")
-    context = tf.keras.Input(shape=(5,), name="context")
-    word_emb = target_embedding(target)
-    context_emb = context_embedding(context)
-    dots = tf.einsum('be,bce->bc', word_emb, context_emb)
-    return tf.keras.Model(inputs=[target, context], outputs=dots)
+    def call(self, pair):
+        target, context = pair
+        if len(target.shape) == 2:
+            target = tf.squeeze(target, axis=1)
+        word_emb = self.target_embedding(target)
+        context_emb = self.context_embedding(context)
+        dots = tf.einsum('be,bce->bc', word_emb, context_emb)
+        return dots
 
 
 def create_training_datapipeline(targets, contexts, labels, batch_size):
@@ -115,8 +121,26 @@ def create_training_datapipeline(targets, contexts, labels, batch_size):
     return dataset
 
 
+def extract_w2v_vectors(model, artifact_dir, embedding_name="w2v_target_embedding"):
+    weights = model.get_layer(embedding_name).get_weights()[0]
+    vocab = vectorize_layer.get_vocabulary()
+
+    out_v = io.open(
+        os.path.join(artifact_dir, 'vectors.tsv'), 'w', encoding='utf-8')
+    out_m = io.open(os.path.join(artifact_dir, 'metadata.tsv'),
+                    'w', encoding='utf-8')
+
+    for index, word in enumerate(vocab):
+        if index == 0:
+            continue  # skip 0, it's padding.
+        vec = weights[index]
+        out_v.write('\t'.join([str(x) for x in vec]) + "\n")
+        out_m.write(word + "\n")
+    out_v.close()
+    out_m.close()
+
+
 if __name__ == "__main__":
-    import tensorflow as tf
     parser = argparse.ArgumentParser(description='Custom Word2Vec')
     parser.add_argument('--csv-file-paths', type=str, nargs='+',
                         help="List of paths to data csv files.")
@@ -127,6 +151,8 @@ if __name__ == "__main__":
     parser.add_argument('--num-negs', type=int, default=5,
                         help="Number of negative (target, context) pairs per positive pair.")
     parser.add_argument('--batch-size', type=int, default=64,
+                        help="Batch size for model training.")
+    parser.add_argument('--epochs', type=int, default=25,
                         help="Batch size for model training.")
     parser.add_argument('--embedding-dim', type=int, default=128,
                         help="Dimension of embedding space.")
@@ -142,7 +168,7 @@ if __name__ == "__main__":
     for file_path in args.csv_file_paths:
         styled_print(f"Reading data from {file_path} ...")
         df = pd.read_csv(file_path)
-        styled_print(df.info())
+        styled_print(f"Found {df.shape[0]} sentences ...")
         dfs.append(df)
 
     dataframe = pd.concat(dfs, ignore_index=True)
@@ -185,5 +211,20 @@ if __name__ == "__main__":
     styled_print("Building Training Data Pipeline ...", header=True)
     dataset = create_training_datapipeline(
         targets, contexts, labels, args.batch_size)
-    for batch in dataset.take(1):
-        styled_print(batch)
+
+    # Create Model Architecture
+    w2v_model = Word2Vec(vectorize_layer.vocabulary_size(),
+                         args.embedding_dim, args.num_negs)
+    w2v_model.compile(optimizer='adam',
+                      loss=tf.keras.losses.CategoricalCrossentropy(
+                          from_logits=True),
+                      metrics=['accuracy'])
+
+    # Callbacks and Training
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=args.logdir)
+    w2v_model.fit(dataset, epochs=args.epochs,
+                  callbacks=[tensorboard_callback], verbose=1)
+
+    # Save Embeddings for Visualization
+    extract_w2v_vectors(w2v_model, args.logdir,
+                        embedding_name="w2v_target_embedding")
