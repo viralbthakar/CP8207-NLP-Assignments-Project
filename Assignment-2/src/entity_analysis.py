@@ -19,9 +19,14 @@ def extract_entities(type, filenames):
         for entity in entities:
             entity_list.append(entity)
     return np.asarray(entity_list)
+
+
 def entity_prefix_frequency(entity_list, n): #Returns dataframe of top n most frequent [0th] words in entity list
-    unique, counts = np.unique(entity_list[0], return_counts=True)
-    unique_count = np.asarray((unique, counts)).T
+    entities_df = pd.DataFrame(entity_list)
+    entities_np = np.array(entities_df[0].str.split().str.get(0))
+    print(entities_np)
+    unique, counts = np.unique(entities_np, return_counts=True) #Get counts for each unique entity
+    unique_count = np.asarray((unique, counts)).T #Merge counts and entities
     # unique_count = unique_count[unique_count[:, 1].argsort()]
     top_n = pd.DataFrame(unique_count)
     top_n[1]=top_n[1].astype(int)
@@ -31,13 +36,7 @@ def entity_prefix_frequency(entity_list, n): #Returns dataframe of top n most fr
 def entity_frequency(entity_list, n): #Returns dataframe of top n most frequent 
     unique, counts = np.unique(entity_list, return_counts=True)
     unique_count = np.asarray((unique, counts)).T
-    # unique_count = unique_count[unique_count[:, 1].argsort()]
     top_n = pd.DataFrame(unique_count)
     top_n[1]=top_n[1].astype(int)
     top_n = top_n.sort_values(by=1)
-    print(entity_prefix_frequency(entity_list, n))
     return top_n.tail(n)
-
-print(entity_frequency(extract_entities("PERSON", ["Assignment-1/data/processed-data/clean-csvs/book-clean-paragraphs.csv", "Assignment-1/data/processed-data/clean-csvs/characters-clean-paragraphs.csv"]), 50))
-# print(entity_frequency(extract_entities("GPE", ["Assignment-1/data/processed-data/clean-csvs/book-clean-paragraphs.csv", "Assignment-1/data/processed-data/clean-csvs/characters-clean-paragraphs.csv"]), 50))
-
