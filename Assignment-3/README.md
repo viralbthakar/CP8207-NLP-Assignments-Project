@@ -1,5 +1,5 @@
 # Group work: 
-#### Maximumly 4 ppl per group for undergraduate students; 3 ppl per group for graduate students, in order to work on the assignment deeply. ONE submission per GROUP please! Specify your group number and your members when you submit your assignment at D2L and shared Drive.
+* Maximumly 4 ppl per group for undergraduate students; 3 ppl per group for graduate students, in order to work on the assignment deeply. ONE submission per GROUP please! Specify your group number and your members when you submit your assignment at D2L and shared Drive.
 
 # Due day: 12:10pm before class, Wednesday, April. 5, 2023
 
@@ -11,7 +11,8 @@
 * Your scripts 
 * Your slides to present your assignment: including your analysis and comparisons.
 * Anything you prefer to be there.
-Where to submit: D2L-Assessment-A3
+# Where to submit: 
+* D2L-Assessment-A3
 
 Objective:
 
