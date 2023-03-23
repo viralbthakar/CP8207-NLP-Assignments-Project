@@ -15,8 +15,8 @@ doc = nlp_model(our_text)
 def spacy_NER(input_str, label):
     annotated_str = {}
     for entity in nlp_model(input_str).ents:
-        if entity.label_ == label:
-            annotated_str[entity.text] = entity.label_
+        # if entity.label_ == label:
+        annotated_str[entity.text] = entity.label_
     return annotated_str
 def sort_entities(entity_dict):
     categories = ['ORG', 'CARDINAL', 'DATE', 'GPE', 'PERSON', 'MONEY', 'PRODUCT', 'TIME', 'PERCENT', 'WORK_OF_ART', 'QUANTITY', 'NORP', 'LOC', 'EVENT', 'ORDINAL', 'FAC', 'LAW', 'LANGUAGE']
