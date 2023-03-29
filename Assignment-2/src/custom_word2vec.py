@@ -18,7 +18,7 @@ def get_preprocessing_datapipeline(df, batch_size=512):
 
     vectorize_layer = tf.keras.layers.TextVectorization(
         max_tokens=None,
-        standardize='lower_and_strip_punctuation',
+        standardize='strip_punctuation',
         split='whitespace',
         ngrams=None,
         output_mode='int',
@@ -228,3 +228,5 @@ if __name__ == "__main__":
     # Save Embeddings for Visualization
     extract_w2v_vectors(w2v_model, args.logdir,
                         embedding_name="w2v_target_embedding")
+
+    w2v_model.save(os.path.join(args.logdir, "tf-saved-model"))

@@ -3,16 +3,13 @@
 ## Create Custom Word2Vec
 ```
 python custom_word2vec.py \
-    --csv-file-paths ../data/raw_csvs/book-raw-paragraphs.csv \
-    ../data/raw_csvs/characters-raw-paragraphs.csv \
-    ../data/raw_csvs/dragons-raw-paragraphs.csv \
-    ../data/raw_csvs/episodes-raw-paragraphs.csv \
-    --logdir ../data/word2vec/logs/exp-01-all-data-w4-nng4-ed128 \
-    --window-size 3 \
-    --num-negs 4 \
+    --csv-file-paths ../data/clean_csvs/main.csv \
+    --logdir ../data/word2vec/logs/exp-03-main-clean-data-w10-nng5-ed300 \
+    --window-size 10 \
+    --num-negs 5 \
     --batch-size 1024 \
     --epochs 20 \
-    --embedding-dim 128
+    --embedding-dim 300
 ```
 
 ## Topic Comparison and Interpretation
